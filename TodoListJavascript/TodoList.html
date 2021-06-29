@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>To Do List</title>
+  </head>
+
+  <body>
+    <input id="create-todo-input" placeholder="write here" />
+    <button id="create-todo-button">Add</button>
+
+    <ul id="todos-list" style="list-style: none;"></ul>
+
+    <script>
+      document.getElementById("create-todo-button").onclick = createTodo;
+      document.getElementById("create-todo-input").onkeydown = pressEnter;
+      //document.getElementById("demo").style = checkboxChecked;
+
+      function pressEnter(event) {
+        if (event.keyCode === 13) {
+          createTodo(event);
+        }
+      }
+
+      /*function checkboxChecked(event) {
+        document.getElementById("demo").style.textDecorationLine = "line-through"; }
+      }*/
+
+      function createTodo(event) {
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.onchange = addStyleAndButton;
+
+        const createTodoInput = document.getElementById("create-todo-input");
+
+        label.textContent = createTodoInput.value;
+
+        //button.textContent = "Remove";
+        //button.addEventListener("click", removeItem);
+
+        const li = document.createElement("li");
+
+        li.appendChild(checkbox);
+        li.appendChild(label);
+
+        const todosList = document.getElementById("todos-list");
+        todosList.appendChild(li);
+
+        const input = document.getElementsByName("clean");
+        input.value = "";
+        input.focus();
+      }
+
+      function addStyleAndButton(event) {
+        const checkbox = event.target;
+        const label = checkbox.nextSibling;
+        const li = checkbox.parentElement;
+
+        if (checkbox.checked) {
+          label.style.textDecoration = "line-through";
+
+          const button = document.createElement("button");
+          button.textContent = "Remove";
+          button.onclick = removeItem;
+
+          li.appendChild(button);
+        } else {
+          label.style.textDecoration = "none";
+
+          const button = label.nextSibling;
+
+          button.remove();
+        }
+      }
+
+      function removeItem(event) {
+        const buttonElement = event.target;
+        const liElement = buttonElement.parentElement;
+
+        liElement.remove();
+      }
+    </script>
+  </body>
+</html>
