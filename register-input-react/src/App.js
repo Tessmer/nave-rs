@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-import Input from "./components/Input"
-import { TableTh } from "./styles.js"
+import Form from "./components/Form/Form"
+import Table from "./components/Table/Table"
 import './App.css';
 
 const App = () => {
   const [list, setList] = useState([]);
   const [product, setProduct] = useState('');
   const [price, setPrice] = useState('');
-
-  useEffect(() => {
-    console.log(list);
-  }, [list])
   
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -28,32 +24,14 @@ const handleSubmit = (event) => {
 
   return (
      <div>
-         <form className="form" onSubmit={handleSubmit}>
-           <Input label="Produtos:" type="text" value={product} onChange={(event) => setProduct(event.target.value)} required />
-           <Input label="Preço:" type="number" value={price} last onChange={(event) => setPrice(event.target.value)} />
-           <button type="submit">Adicionar produto</button>
-         </form>
-
-         <div className="table">
-            <table id="table">
-              <thead>
-                <TableTh>ID</TableTh>
-                <TableTh>Produto</TableTh>
-                <TableTh>Preço</TableTh>
-              </thead>
-                {list.map(item => {
-                  return (
-                    <tbody key={item.id}>
-                      <tr>
-                        <td>{item.id}</td>
-                        <td>{item.product}</td>
-                        <td>{item.price}</td>
-                      </tr>
-                    </tbody>
-                  )
-                })}
-            </table>
-         </div>
+         <Form 
+         onSubmit={handleSubmit}
+         product={product}
+         setProduct={setProduct}
+         price={price}
+         setPrice={setPrice}
+         />
+         <Table list={list} labels={["ID", "PRODUTO", "PREÇO"]}/>
      </div>
 )
 }
