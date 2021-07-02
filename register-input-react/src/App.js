@@ -1,39 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Form from "./components/Form/Form"
-import Table from "./components/Table/Table"
+import InputPage from './pages/InputPage'
+import RegisterPage from './pages/RegisterPage'
+
 import './App.css';
 
 const App = () => {
-  const [list, setList] = useState([]);
-  const [product, setProduct] = useState('');
-  const [price, setPrice] = useState('');
-  
-const handleSubmit = (event) => {
-  event.preventDefault();
-
-  const format = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL", 
-  }).format(price);
-  setList([...list, {id: Date.now(), product: product, price: format}])
-
-  setProduct("");
-  setPrice("");
-}
-
-  return (
-     <div>
-         <Form 
-         onSubmit={handleSubmit}
-         product={product}
-         setProduct={setProduct}
-         price={price}
-         setPrice={setPrice}
-         />
-         <Table list={list} labels={["ID", "PRODUTO", "PREÇO"]}/>
-     </div>
-)
+  return(
+    <BrowserRouter>
+      <Switch>
+      <Route path="/" exact component={InputPage} />
+      <Route path="/register" exact component={RegisterPage} />
+      </Switch>
+  </BrowserRouter>
+  )
 }
 
 export default App;
