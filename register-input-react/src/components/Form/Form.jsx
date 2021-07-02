@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { string, func } from 'prop-types'
 
 import Input from '../Input'
 
-const Form = ({onSubmit, product, setProduct, price, setPrice}) => {
+const Form = ({ onSubmit }) => {
+  const [product, setProduct] = useState('');
+  const [price, setPrice] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const format = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL", 
+    }).format(price)
+
+    onSubmit({id: Date.now(), product: product, price: format})
+
+    setProduct("");
+    setPrice("");
+  }
+
     return(
-         <form onSubmit={onSubmit}>
+         <form onSubmit={handleSubmit}>
            <Input 
            label="Produtos:" 
            type="text" 

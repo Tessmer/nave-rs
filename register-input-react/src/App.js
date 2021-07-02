@@ -1,20 +1,23 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import InputPage from './pages/InputPage'
 import RegisterPage from './pages/RegisterPage'
+import { ProductsProvider } from './context/products'
 
-import './App.css';
+import './App.css'
 
 const App = () => {
-  return(
+  return (
     <BrowserRouter>
       <Switch>
-      <Route path="/" exact component={InputPage} />
-      <Route path="/register" exact component={RegisterPage} />
+        <ProductsProvider>
+          <Route path="/" exact component={InputPage} />
+          <Route path="/register" exact component={RegisterPage} />
+        </ProductsProvider>
       </Switch>
-  </BrowserRouter>
+    </BrowserRouter>
   )
 }
 
-export default App;
+export default App
