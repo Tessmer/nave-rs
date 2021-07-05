@@ -1,36 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router-dom'
+import { useProducts } from '../context/products'
 
-import Form from './../components/Form/Form';
+import Form from './../components/Form/Form'
 
 const InputPage = () => {
-  const [list, setList] = useState([]);
-  const [product, setProduct] = useState('');
-  const [price, setPrice] = useState('');
-  
-const handleSubmit = (event) => {
-  event.preventDefault();
+  const history = useHistory()
 
-  const format = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL", 
-  }).format(price);
-  setList([...list, {id: Date.now(), product: product, price: format}])
+  const { addProduct } = useProducts()
 
-  setProduct("");
-  setPrice("");
-}
+  const handleAddProduct = (product) => {
+    addProduct(product)
+    history.push('/register')
+  }
 
   return (
      <div>
-         <Form 
-         onSubmit={handleSubmit}
-         product={product}
-         setProduct={setProduct}
-         price={price}
-         setPrice={setPrice}
-         />
+        <Form onSubmit={handleAddProduct} />      
      </div>
 )
 }
 
-export default InputPage;
+export default InputPage
