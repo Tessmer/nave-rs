@@ -1,45 +1,61 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { string, func } from 'prop-types'
+import { Controller, useForm } from 'react-hook-form'
 
 import Input from '../Input'
 
 const Form = ({ onSubmit }) => {
-  const [product, setProduct] = useState('');
-  const [price, setPrice] = useState('');
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      product: '',
+      price: ''
+    }
+  })
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  const handlePreSubmit = (values) => {
     const format = new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
-    }).format (price)
+    }).format (values.price)
 
-    onSubmit({id: Date.now(), product: product, price: format})
+    onSubmit({id: Date.now(), product: values.product, price: format})
 
-    setProduct('');
-    setPrice('');
+    reset()
   }
 
     return (
-         <form onSubmit={handleSubmit}>
-           <Input 
-           label="Produtos:" 
-           type="text" 
-           value={product} 
-           onChange={(event) => setProduct(event.target.value)} 
-           required 
-           mx="8px"
+         <form onSubmit={handleSubmit(handlePreSubmit)}>
+           <Controller 
+            control={control}
+            name="product"
+            render={({ name, onChange, value }) => (
+              <Input
+                name={name} 
+                label="Produtos:" 
+                type="text" 
+                value={value} 
+                onChange={onChange} 
+                required 
+                mx="8px"
+                />
+                )}
            />
 
-           <Input 
-           label="Preço:" 
-           type="number" 
-           value={price} 
-           onChange={(event) => setPrice(event.target.value)} 
-           ml="8px"
-           onKeyDown={ (event) => event.key === 'e' && event.preventDefault() } />
-           
+          <Controller
+            control={control}
+            name="price"
+            render={({ name, onChange, value }) => (
+              <Input 
+                name={name}
+               label="Preço:" 
+               type="number" 
+               value={value} 
+               onChange={onChange} 
+               ml="8px"
+               onKeyDown={ (event) => event.key === 'e' && event.preventDefault() } 
+              />
+            )}
+           />
            <button type="submit">Adicionar produto</button>
          </form>
          )
